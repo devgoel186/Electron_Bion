@@ -1,0 +1,22 @@
+{
+  "name": "electron-project",
+  "version": "1.0.0",
+  "description": "ElectronJS Bion for desktop apps",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devgoel186/Electron_Bion.git"
+  },
+  "author": "Dev Goel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/devgoel186/Electron_Bion/issues"
+  },
+  "homepage": "https://github.com/devgoel186/Electron_Bion#readme",
+  "dependencies": {
+    "electron": "^13.1.2"
+  }
+}
