@@ -5,8 +5,8 @@ const path = require("path"); // to include paths in our project
 const url = require("url");
 
 // let winone, wintwo;
-let win, dimensionWin, colorWin, framelessWin;
-let parentWin, childWin;
+let win; /*dimensionWin, colorWin, framelessWin;*/
+// let parentWin, childWin;
 
 /* THE MAIN.JS FILE CREATES A MAIN PROCESS, WHICH RUNS
 RENDERER PROCESSES, AND THESE PROCESSES DO NOT INTERFERE WITH ONE ANOTHER*/
@@ -19,32 +19,34 @@ const specifics = {
 };
 
 function createWindow() {
-  // <><><><><><><><><><><><><><><><><><><>
+  /* ------- COMMIT 6 - QUOTE WIDGET ------- */
+  win = new BrowserWindow({
+    specifics,
+    height: 150,
+    width: 500,
+    frame: false,
+  });
 
+  win.loadURL(`file://${__dirname}/quote.html`);
+  // <><><><><><><><><><><><><><><><><><><>
   /* ------- COMMIT 5 ------- */
-
-  parentWin = new BrowserWindow({
-    specifics,
-    modal: true,
-    title: "Parent",
-  });
-
-  childWin = new BrowserWindow({
-    specifics,
-    parent: parentWin,
-    title: "Child",
-    modal: true,
-    show: false,
-  }); // the child window always remains on top of the parent window
-
-  childWin.loadURL("https://dev-goel.netlify.app/");
-
-  childWin.once("ready-to-show", () => {
-    childWin.show();
-  });
-
+  // parentWin = new BrowserWindow({
+  //   specifics,
+  //   modal: true,
+  //   title: "Parent",
+  // });
+  // childWin = new BrowserWindow({
+  //   specifics,
+  //   parent: parentWin,
+  //   title: "Child",
+  //   modal: true,
+  //   show: false,
+  // }); // the child window always remains on top of the parent window
+  // childWin.loadURL("https://dev-goel.netlify.app/");
+  // childWin.once("ready-to-show", () => {
+  //   childWin.show();
+  // });
   // <><><><><><><><><><><><><><><><><><><>
-
   /* ------ COMMIT 4 -------- */
   // win = new BrowserWindow({
   //   specifics,
@@ -68,9 +70,7 @@ function createWindow() {
   //   backgroundColor: "#800000",
   //   frame: false,
   // });
-
   // <><><><><><><><><><><><><><><><><><><>
-
   /* ------ COMMIT 1-3 ------*/
   // winone = new BrowserWindow({
   //   webPreferences: {
