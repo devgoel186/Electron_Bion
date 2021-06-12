@@ -21,19 +21,19 @@ const specifics = {
 };
 
 function createWindow() {
-  win = new BrowserWindow({
-    ...specifics,
-    show: false,
-  });
-  win.loadURL(`file://${__dirname}/ipc.html`);
-  win.on("ready-to-show", () => {
-    win.show();
-  });
-  win.webContents.openDevTools();
   // <><><><><><><><><><><><><><><><><><><>
-  /* ------- COMMIT 7 ------------ */
+  /* ------- COMMIT 8-9 ------------ */
+  // win = new BrowserWindow({
+  //   ...specifics,
+  //   show: false,
+  // });
+  // win.loadURL(`file://${__dirname}/html/ipc.html`);
+  // win.on("ready-to-show", () => {
+  //   win.show();
+  // });
+  // win.webContents.openDevTools();
   // <><><><><><><><><><><><><><><><><><><>
-  /* ------- COMMIT 6 - QUOTE WIDGET ------- */
+  /* ------- COMMIT 6-7 - QUOTE WIDGET ------- */
   // win = new BrowserWindow({
   //   ...specifics,
   //   height: 150,
@@ -41,7 +41,7 @@ function createWindow() {
   //   frame: false,
   //   show: false,
   // });
-  // win.loadURL(`file://${__dirname}/quote.html`);
+  // win.loadURL(`file://${__dirname}/html/quote.html`);
   // win.on("ready-to-show", () => {
   //   win.show();
   // });
@@ -100,8 +100,8 @@ function createWindow() {
   // wintwo = new BrowserWindow({
   //   ...specifics,
   // });
-  // winone.loadURL(`file://${__dirname}/one.html`);
-  // wintwo.loadURL(`file://${__dirname}/two.html`);
+  // winone.loadURL(`file://${__dirname}/html/one.html`);
+  // wintwo.loadURL(`file://${__dirname}/html/two.html`);
   // winone.webContents.openDevTools();
   // wintwo.webContents.openDevTools();
   // winone.on("closed", () => {
