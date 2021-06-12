@@ -9,9 +9,11 @@ const dialog = electron.dialog;
 const menu = electron.Menu;
 const MenuItem = electron.MenuItem;
 const globalShortcut = electron.globalShortcut;
+const Tray = electron.Tray;
+const iconPath = path.join(__dirname, "icons/chess_icon.jpg");
 
 // let winone, wintwo;
-let win; /*dimensionWin, colorWin, framelessWin;*/
+let win, tray; /*dimensionWin, colorWin, framelessWin;*/
 // let parentWin, childWin;
 
 /* THE MAIN.JS FILE CREATES A MAIN PROCESS, WHICH RUNS
@@ -26,16 +28,17 @@ const specifics = {
 
 function createWindow() {
   // <><><><><><><><><><><><><><><><><><><>
-  /* ------- COMMIT 11-13 ------------ */
-  win = new BrowserWindow({
-    ...specifics,
-    show: false,
-  });
-  win.loadURL(`file://${__dirname}/html/menu.html`);
-  win.on("ready-to-show", () => {
-    win.show();
-  });
-  win.webContents.openDevTools();
+  /* ------- COMMIT 11-14 ------------ */
+  /* FOR COMMIT 14 , i.e, TRAY MODULE, WE DON'T NEED BROWSER WINDOW */
+  // win = new BrowserWindow({
+  //   ...specifics,
+  //   show: false,
+  // });
+  // win.loadURL(`file://${__dirname}/html/menu.html`);
+  // win.on("ready-to-show", () => {
+  //   win.show();
+  // });
+  // win.webContents.openDevTools();
   // <><><><><><><><><><><><><><><><><><><>
   /* ------- COMMIT 8-9 ------------ */
   // win = new BrowserWindow({
@@ -144,63 +147,109 @@ ipc.on("sync-message", (event, arg) => {
 
 app.on("ready", () => {
   createWindow();
-  const template = [
+  tray = new Tray(iconPath);
+
+  /* ------- TEMPLATE 1 - FOR IN APP CONTEXT MENU ------ */
+  // const template = [
+  //   {
+  //     label: "Demo",
+  //     submenu: [
+  //       {
+  //         label: "Submenu 1",
+  //         click: () => {
+  //           console.log("Clicked Submenu 1");
+  //         },
+  //       },
+  //       {
+  //         type: "separator",
+  //       },
+  //       {
+  //         label: "Submenu 2",
+  //         click: () => {
+  //           console.log("Clicked Submenu 2");
+  //         },
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     label: "Help",
+  //     submenu: [
+  //       {
+  //         label: "About Electron.js",
+  //         click: () => {
+  //           electron.shell.openExternal("https://www.electronjs.org/");
+  //         },
+  //         accelerator: "CommandOrControl + Shift + H",
+  //       },
+  //     ],
+  //   },
+  // ];
+
+  /* ----------- TEMPLATE 2 - FOR TRAY CONTEXT MENU ------ */
+  const templateTrayMenu = [
     {
-      label: "Demo",
+      label: "Audio",
       submenu: [
         {
-          label: "Submenu 1",
-          click: () => {
-            console.log("Clicked Submenu 1");
-          },
+          label: "Low",
+          type: "radio",
+          checked: true,
         },
         {
-          type: "separator",
-        },
-        {
-          label: "Submenu 2",
-          click: () => {
-            console.log("Clicked Submenu 2");
-          },
+          label: "High",
+          type: "radio",
         },
       ],
     },
     {
-      label: "Help",
+      label: "Video",
       submenu: [
         {
-          label: "About Electron.js",
-          click: () => {
-            electron.shell.openExternal("https://www.electronjs.org/");
-          },
-          accelerator: "CommandOrControl + Shift + H",
+          label: "1280x720",
+          type: "radio",
+          checked: true,
+        },
+        {
+          label: "1920x1080",
+          type: "radio",
         },
       ],
     },
   ];
 
-  const appmenu = menu.buildFromTemplate(template);
-  menu.setApplicationMenu(appmenu);
+  /* --------- IN - APP MENU -------- */
+  // const appmenu = menu.buildFromTemplate(template);
+  // menu.setApplicationMenu(appmenu);
 
+  /* --------- CONTEXT MENUS -------- */
   /* We are creating a context menu and appending items to it */
-  const contextmenu = new menu();
-  contextmenu.append(
-    new MenuItem({
-      label: "Hello",
-      click: () => {
-        console.log("Context Menu Item Clicked");
-      },
-    })
-  );
-  contextmenu.append(
-    new MenuItem({
-      role: "selectAll" /* Default roles like these for very common operations
-                            exist in electron. We can use these use 'role' keyword */,
-    })
-  );
-  win.webContents.on("context-menu", (event, params) => {
-    contextmenu.popup(win, params.x, params.y);
-  });
+
+  /* --------- CONTEXT MENU - 1 ---- FOR IN APP  ------*/
+  // const contextmenu = new menu();
+  // contextmenu.append(
+  //   new MenuItem({
+  //     label: "Hello",
+  //     click: () => {
+  //       console.log("Context Menu Item Clicked");
+  //     },
+  //   })
+  // );
+  // contextmenu.append(
+  //   new MenuItem({
+  //     role: "selectAll" /* Default roles like these for very common operations
+  //                           exist in electron. We can use these use 'role' keyword */,
+  //   })
+  // );
+  // win.webContents.on("context-menu", (event, params) => {
+  //   contextmenu.popup(win, params.x, params.y);
+  // });
+
+  /* ----------- CONTEXT MENU - 2 ----- FOR TRAY MENU ---- */
+
+  const contextMenuTray = menu.buildFromTemplate(templateTrayMenu);
+  tray.setContextMenu(contextMenuTray);
+  tray.setToolTip("Electron-Test");
+  tray.setTitle("Electron");
 
   /* Global shortcuts can be activated even if window is not in focus */
   globalShortcut.register("Alt + 1", () => {
