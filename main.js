@@ -6,6 +6,7 @@ const url = require("url");
 const ipc = electron.ipcMain;
 const dialog = electron.dialog;
 const menu = electron.Menu;
+const MenuItem = electron.MenuItem;
 
 // let winone, wintwo;
 let win; /*dimensionWin, colorWin, framelessWin;*/
@@ -23,16 +24,38 @@ const specifics = {
 
 function createWindow() {
   // <><><><><><><><><><><><><><><><><><><>
-  /* ------- COMMIT 10-PRESENT ------------ */
-  win = new BrowserWindow({
-    ...specifics,
-    show: false,
-  });
-  win.loadURL(`file://${__dirname}/html/menu.html`);
-  win.on("ready-to-show", () => {
-    win.show();
-  });
-  win.webContents.openDevTools();
+  /* ------- COMMIT 13 ------------ */
+  // win = new BrowserWindow({
+  //   ...specifics,
+  //   show: false,
+  // });
+  // win.loadURL(`file://${__dirname}/html/menu.html`);
+  // win.on("ready-to-show", () => {
+  //   win.show();
+  // });
+  // win.webContents.openDevTools();
+  // <><><><><><><><><><><><><><><><><><><>
+  /* ------- COMMIT 12 ------------ */
+  // win = new BrowserWindow({
+  //   ...specifics,
+  //   show: false,
+  // });
+  // win.loadURL(`file://${__dirname}/html/menu.html`);
+  // win.on("ready-to-show", () => {
+  //   win.show();
+  // });
+  // win.webContents.openDevTools();
+  // <><><><><><><><><><><><><><><><><><><>
+  /* ------- COMMIT 11 ------------ */
+  // win = new BrowserWindow({
+  //   ...specifics,
+  //   show: false,
+  // });
+  // win.loadURL(`file://${__dirname}/html/menu.html`);
+  // win.on("ready-to-show", () => {
+  //   win.show();
+  // });
+  // win.webContents.openDevTools();
   // <><><><><><><><><><><><><><><><><><><>
   /* ------- COMMIT 8-9 ------------ */
   // win = new BrowserWindow({
@@ -169,6 +192,27 @@ app.on("ready", () => {
       },
     },
   ];
+
   const appmenu = menu.buildFromTemplate(template);
   menu.setApplicationMenu(appmenu);
+
+  /* We are creating a context menu and appending items to it */
+  const contextmenu = new menu();
+  contextmenu.append(
+    new MenuItem({
+      label: "Hello",
+      click: () => {
+        console.log("Context Menu Item Clicked");
+      },
+    })
+  );
+  contextmenu.append(
+    new MenuItem({
+      role: "selectAll" /* Default roles like these for very common operations
+                            exist in electron. We can use these use 'role' keyword */,
+    })
+  );
+  win.webContents.on("context-menu", (event, params) => {
+    contextmenu.popup(win, params.x, params.y);
+  });
 });
