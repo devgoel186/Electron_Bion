@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/devgoel186/Electron_Bion#readme",
   "dependencies": {
-    "electron": "^13.1.2"
+    "electron": "^13.1.2",
+    "request": "^2.88.2"
   }
 }

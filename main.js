@@ -21,22 +21,27 @@ const specifics = {
 function createWindow() {
   /* ------- COMMIT 6 - QUOTE WIDGET ------- */
   win = new BrowserWindow({
-    specifics,
+    ...specifics,
     height: 150,
     width: 500,
     frame: false,
+    show: false,
   });
 
   win.loadURL(`file://${__dirname}/quote.html`);
+  win.on("ready-to-show", () => {
+    win.show();
+  });
+
   // <><><><><><><><><><><><><><><><><><><>
   /* ------- COMMIT 5 ------- */
   // parentWin = new BrowserWindow({
-  //   specifics,
+  //   ...specifics,
   //   modal: true,
   //   title: "Parent",
   // });
   // childWin = new BrowserWindow({
-  //   specifics,
+  //   ...specifics,
   //   parent: parentWin,
   //   title: "Child",
   //   modal: true,
@@ -49,10 +54,10 @@ function createWindow() {
   // <><><><><><><><><><><><><><><><><><><>
   /* ------ COMMIT 4 -------- */
   // win = new BrowserWindow({
-  //   specifics,
+  //   ...specifics,
   // });
   // dimensionWin = new BrowserWindow({
-  //   specifics,
+  //   ...specifics,
   //   width: 400,
   //   height: 400,
   //   maxWidth: 600,
@@ -66,7 +71,7 @@ function createWindow() {
   //   backgroundColor: "#228b22",
   // });
   // framelessWin = new BrowserWindow({
-  //   specifics,
+  //   ...specifics,
   //   backgroundColor: "#800000",
   //   frame: false,
   // });
@@ -81,7 +86,7 @@ function createWindow() {
   //   },
   // });
   // wintwo = new BrowserWindow({
-  //   specifics,
+  //   ...specifics,
   // });
   // winone.loadURL(`file://${__dirname}/one.html`);
   // wintwo.loadURL(`file://${__dirname}/two.html`);

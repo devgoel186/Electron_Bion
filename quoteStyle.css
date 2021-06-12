@@ -1,8 +1,20 @@
+* {
+  -webkit-app-region: drag; /* To make the screen draggable */
+}
+
 body {
   background-color: #222233;
   color: #aaccff;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  height: 150px;
+  font-family: "Baloo Tammudu 2", cursive;
   overflow: hidden;
   border-radius: 5px;
+  line-height: 16px;
+}
+
+h2 {
+  font-size: 18px;
+}
+
+#quote {
+  font-size: 14px;
 }
