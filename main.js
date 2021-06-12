@@ -30,15 +30,15 @@ function createWindow() {
   // <><><><><><><><><><><><><><><><><><><>
   /* ------- COMMIT 11-14 ------------ */
   /* FOR COMMIT 14 , i.e, TRAY MODULE, WE DON'T NEED BROWSER WINDOW */
-  // win = new BrowserWindow({
-  //   ...specifics,
-  //   show: false,
-  // });
-  // win.loadURL(`file://${__dirname}/html/menu.html`);
-  // win.on("ready-to-show", () => {
-  //   win.show();
-  // });
-  // win.webContents.openDevTools();
+  win = new BrowserWindow({
+    ...specifics,
+    show: false,
+  });
+  win.loadURL(`file://${__dirname}/html/shell.html`);
+  win.on("ready-to-show", () => {
+    win.show();
+  });
+  win.webContents.openDevTools();
   // <><><><><><><><><><><><><><><><><><><>
   /* ------- COMMIT 8-9 ------------ */
   // win = new BrowserWindow({
