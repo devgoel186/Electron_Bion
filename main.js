@@ -117,4 +117,14 @@ ipc.on("open-error-dialog", (event, arg) => {
   event.sender.send("opened-error-dialog", "Main Process opened Error dialog");
 });
 
+ipc.on("async-message", (event, arg) => {
+  // dialog.showErrorBox("Error", "Demo Error Message!");
+  event.sender.send("async-reply", "Main Process opened Error dialog");
+});
+
+ipc.on("sync-message", (event, arg) => {
+  // dialog.showErrorBox("Error", "Demo Error Message!");
+  event.returnValue = "sync-reply";
+});
+
 app.on("ready", createWindow);
