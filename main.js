@@ -5,6 +5,7 @@ const path = require("path"); // to include paths in our project
 const url = require("url");
 const ipc = electron.ipcMain;
 const dialog = electron.dialog;
+const menu = electron.Menu;
 
 // let winone, wintwo;
 let win; /*dimensionWin, colorWin, framelessWin;*/
@@ -21,6 +22,17 @@ const specifics = {
 };
 
 function createWindow() {
+  // <><><><><><><><><><><><><><><><><><><>
+  /* ------- COMMIT 10-PRESENT ------------ */
+  win = new BrowserWindow({
+    ...specifics,
+    show: false,
+  });
+  win.loadURL(`file://${__dirname}/html/menu.html`);
+  win.on("ready-to-show", () => {
+    win.show();
+  });
+  win.webContents.openDevTools();
   // <><><><><><><><><><><><><><><><><><><>
   /* ------- COMMIT 8-9 ------------ */
   // win = new BrowserWindow({
@@ -127,4 +139,36 @@ ipc.on("sync-message", (event, arg) => {
   event.returnValue = "sync-reply";
 });
 
-app.on("ready", createWindow);
+app.on("ready", () => {
+  createWindow();
+  const template = [
+    {
+      label: "Demo",
+      submenu: [
+        {
+          label: "Submenu 1",
+          click: () => {
+            console.log("Clicked Submenu 1");
+          },
+        },
+        {
+          type: "separator",
+        },
+        {
+          label: "Submenu 2",
+          click: () => {
+            console.log("Clicked Submenu 2");
+          },
+        },
+      ],
+    },
+    {
+      label: "Help",
+      click: () => {
+        electron.shell.openExternal("https://www.electronjs.org/");
+      },
+    },
+  ];
+  const appmenu = menu.buildFromTemplate(template);
+  menu.setApplicationMenu(appmenu);
+});
