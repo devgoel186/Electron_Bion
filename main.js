@@ -1,3 +1,4 @@
+const { Accelerator } = require("electron");
 const electron = require("electron");
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow; // responsible for any UI related parts of our app
@@ -7,6 +8,7 @@ const ipc = electron.ipcMain;
 const dialog = electron.dialog;
 const menu = electron.Menu;
 const MenuItem = electron.MenuItem;
+const globalShortcut = electron.globalShortcut;
 
 // let winone, wintwo;
 let win; /*dimensionWin, colorWin, framelessWin;*/
@@ -24,38 +26,16 @@ const specifics = {
 
 function createWindow() {
   // <><><><><><><><><><><><><><><><><><><>
-  /* ------- COMMIT 13 ------------ */
-  // win = new BrowserWindow({
-  //   ...specifics,
-  //   show: false,
-  // });
-  // win.loadURL(`file://${__dirname}/html/menu.html`);
-  // win.on("ready-to-show", () => {
-  //   win.show();
-  // });
-  // win.webContents.openDevTools();
-  // <><><><><><><><><><><><><><><><><><><>
-  /* ------- COMMIT 12 ------------ */
-  // win = new BrowserWindow({
-  //   ...specifics,
-  //   show: false,
-  // });
-  // win.loadURL(`file://${__dirname}/html/menu.html`);
-  // win.on("ready-to-show", () => {
-  //   win.show();
-  // });
-  // win.webContents.openDevTools();
-  // <><><><><><><><><><><><><><><><><><><>
-  /* ------- COMMIT 11 ------------ */
-  // win = new BrowserWindow({
-  //   ...specifics,
-  //   show: false,
-  // });
-  // win.loadURL(`file://${__dirname}/html/menu.html`);
-  // win.on("ready-to-show", () => {
-  //   win.show();
-  // });
-  // win.webContents.openDevTools();
+  /* ------- COMMIT 11-13 ------------ */
+  win = new BrowserWindow({
+    ...specifics,
+    show: false,
+  });
+  win.loadURL(`file://${__dirname}/html/menu.html`);
+  win.on("ready-to-show", () => {
+    win.show();
+  });
+  win.webContents.openDevTools();
   // <><><><><><><><><><><><><><><><><><><>
   /* ------- COMMIT 8-9 ------------ */
   // win = new BrowserWindow({
@@ -187,9 +167,15 @@ app.on("ready", () => {
     },
     {
       label: "Help",
-      click: () => {
-        electron.shell.openExternal("https://www.electronjs.org/");
-      },
+      submenu: [
+        {
+          label: "About Electron.js",
+          click: () => {
+            electron.shell.openExternal("https://www.electronjs.org/");
+          },
+          accelerator: "CommandOrControl + Shift + H",
+        },
+      ],
     },
   ];
 
@@ -215,4 +201,16 @@ app.on("ready", () => {
   win.webContents.on("context-menu", (event, params) => {
     contextmenu.popup(win, params.x, params.y);
   });
+
+  /* Global shortcuts can be activated even if window is not in focus */
+  globalShortcut.register("Alt + 1", () => {
+    win.show();
+  });
 });
+
+app.on("will-quit", () => {
+  globalShortcut.unregisterAll();
+});
+/* Ideally, you must unregister all global shortcuts */
+/* Only those shortcuts can be unregistered which were registered 
+through global shortcuts module */
