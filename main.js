@@ -3,6 +3,8 @@ const app = electron.app;
 const BrowserWindow = electron.BrowserWindow; // responsible for any UI related parts of our app
 const path = require("path"); // to include paths in our project
 const url = require("url");
+const ipc = electron.ipcMain;
+const dialog = electron.dialog;
 
 // let winone, wintwo;
 let win; /*dimensionWin, colorWin, framelessWin;*/
@@ -19,20 +21,30 @@ const specifics = {
 };
 
 function createWindow() {
-  /* ------- COMMIT 6 - QUOTE WIDGET ------- */
   win = new BrowserWindow({
     ...specifics,
-    height: 150,
-    width: 500,
-    frame: false,
     show: false,
   });
-
-  win.loadURL(`file://${__dirname}/quote.html`);
+  win.loadURL(`file://${__dirname}/ipc.html`);
   win.on("ready-to-show", () => {
     win.show();
   });
-
+  win.webContents.openDevTools();
+  // <><><><><><><><><><><><><><><><><><><>
+  /* ------- COMMIT 7 ------------ */
+  // <><><><><><><><><><><><><><><><><><><>
+  /* ------- COMMIT 6 - QUOTE WIDGET ------- */
+  // win = new BrowserWindow({
+  //   ...specifics,
+  //   height: 150,
+  //   width: 500,
+  //   frame: false,
+  //   show: false,
+  // });
+  // win.loadURL(`file://${__dirname}/quote.html`);
+  // win.on("ready-to-show", () => {
+  //   win.show();
+  // });
   // <><><><><><><><><><><><><><><><><><><>
   /* ------- COMMIT 5 ------- */
   // parentWin = new BrowserWindow({
@@ -99,5 +111,10 @@ function createWindow() {
   //   win = null;
   // });
 }
+
+ipc.on("open-error-dialog", (event, arg) => {
+  dialog.showErrorBox("Error", "Demo Error Message!");
+  event.sender.send("opened-error-dialog", "Main Process opened Error dialog");
+});
 
 app.on("ready", createWindow);
