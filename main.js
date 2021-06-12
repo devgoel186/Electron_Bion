@@ -28,17 +28,27 @@ const specifics = {
 
 function createWindow() {
   // <><><><><><><><><><><><><><><><><><><>
-  /* ------- COMMIT 11-14 ------------ */
-  /* FOR COMMIT 14 , i.e, TRAY MODULE, WE DON'T NEED BROWSER WINDOW */
+  /* ------- COMMIT 16 ------------ */
   win = new BrowserWindow({
     ...specifics,
     show: false,
   });
-  win.loadURL(`file://${__dirname}/html/shell.html`);
+  win.loadURL(`file://${__dirname}/html/photon.html`);
   win.on("ready-to-show", () => {
     win.show();
   });
-  win.webContents.openDevTools();
+  // <><><><><><><><><><><><><><><><><><><>
+  /* ------- COMMIT 11-15 ------------ */
+  /* FOR COMMIT 14 , i.e, TRAY MODULE, WE DON'T NEED BROWSER WINDOW */
+  // win = new BrowserWindow({
+  //   ...specifics,
+  //   show: false,
+  // });
+  // win.loadURL(`file://${__dirname}/html/shell.html`);
+  // win.on("ready-to-show", () => {
+  //   win.show();
+  // });
+  // win.webContents.openDevTools();
   // <><><><><><><><><><><><><><><><><><><>
   /* ------- COMMIT 8-9 ------------ */
   // win = new BrowserWindow({
